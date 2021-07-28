@@ -1,0 +1,708 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SM App",
+        "description": "SM App",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://sm-app.test/api",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/1.0/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "description": "User login endpont & client id, password",
+                "operationId": "cf4728e8a162792246ddcabd03194863",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginUserRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful loged",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse200Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid email or password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response401Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "426": {
+                        "description": "upgrade required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response401Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "The given data was invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response422Virtual"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/1.0/users/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "description": "User Profile",
+                "operationId": "0476254c94ed2ab337a61dffc48e17ac",
+                "responses": {
+                    "200": {
+                        "description": "successful loged",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfileResponse200Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response401Virtual"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginUserRequestVirtual": {
+                "title": "login user data",
+                "description": "login user data",
+                "required": [
+                    "grant_type",
+                    "client_id",
+                    "client_secret",
+                    "username",
+                    "password"
+                ],
+                "properties": {
+                    "grant_type": {
+                        "title": "grant_type",
+                        "description": "shuld be *passwprd*",
+                        "type": "string",
+                        "example": "password"
+                    },
+                    "client_id": {
+                        "title": "cilent_id",
+                        "description": "cilent id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "client_secret": {
+                        "title": "client_secret",
+                        "description": "client passwprd",
+                        "type": "string",
+                        "example": "bm5FLIEBut8BC2a2VO4VB0TuAWi0sit5PKHDa616"
+                    },
+                    "username": {
+                        "title": "username",
+                        "description": "user email",
+                        "type": "string",
+                        "example": "user@gmail.com"
+                    },
+                    "password": {
+                        "title": "password",
+                        "description": "user password",
+                        "type": "string",
+                        "example": "12345678"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponse200Virtual": {
+                "title": "Login success response",
+                "description": "Login success response",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 200
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "success message",
+                        "type": "string",
+                        "example": "logged!"
+                    },
+                    "response": {
+                        "title": "response",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "description": "user token",
+                                "properties": {
+                                    "access_token": {
+                                        "description": "JWT user token",
+                                        "type": "string",
+                                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                                    },
+                                    "token_type": {
+                                        "description": "token type",
+                                        "type": "string",
+                                        "example": "Bearer"
+                                    },
+                                    "refresh_token": {
+                                        "description": "JWT user refresh token",
+                                        "type": "string",
+                                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                                    },
+                                    "refresh_url": {
+                                        "description": "refresh token url",
+                                        "type": "string",
+                                        "example": "http://dev.uguworld.com/api/1.0/auth/refresh"
+                                    },
+                                    "expires_in": {
+                                        "description": "expires in (per second)",
+                                        "type": "integer",
+                                        "example": "1296000"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "meta": {
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Response401Virtual": {
+                "title": "response Error 401",
+                "description": "response Error 401",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 401
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "unauthorized",
+                        "type": "string",
+                        "example": "unauthorized user"
+                    },
+                    "response": {
+                        "title": "data",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "example": null
+                            },
+                            "meta": {
+                                "type": "object",
+                                "example": null
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "Response402Virtual": {
+                "title": "response Error 402",
+                "description": "payment required 402",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 402
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "payment required",
+                        "type": "string",
+                        "example": "payment required"
+                    },
+                    "response": {
+                        "title": "data",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "example": null
+                            },
+                            "meta": {
+                                "type": "object",
+                                "example": null
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "Response403Virtual": {
+                "title": "response Error 403",
+                "description": "response Error 403",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 403
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "forbidden",
+                        "type": "string",
+                        "example": "don't have primssions"
+                    },
+                    "response": {
+                        "title": "data",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                            },
+                            "meta": {
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Response404Virtual": {
+                "title": "response Error 404",
+                "description": "response Error 404",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 404
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "not found",
+                        "type": "string",
+                        "example": "Not found"
+                    },
+                    "response": {
+                        "title": "data",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "example": null
+                            },
+                            "meta": {
+                                "type": "object",
+                                "example": null
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "Response406Virtual": {
+                "title": "response validation Error 422",
+                "description": "response validation Error 422",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 406
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "Not acceptable",
+                        "type": "string",
+                        "example": "not acceptable"
+                    },
+                    "response": {
+                        "title": "data",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "example": null
+                            },
+                            "meta": {
+                                "type": "object",
+                                "example": null
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "Response422Virtual": {
+                "title": "response validation Error 422",
+                "description": "response validation Error 422",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 422
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "invalid data",
+                        "type": "string",
+                        "example": "The given data was invalid"
+                    },
+                    "response": {
+                        "title": "data",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "example": null
+                            },
+                            "meta": {
+                                "type": "object",
+                                "example": null
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "The email field is required"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMetaVirtual": {
+                "title": "Meta data for pagination",
+                "description": "Meta data for pagination",
+                "properties": {
+                    "current_page": {
+                        "title": "current_page",
+                        "description": "Current page",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "from": {
+                        "title": "from",
+                        "description": "From",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "title": "last_page",
+                        "description": "Last page",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "path": {
+                        "title": "path",
+                        "description": "Path",
+                        "type": "string",
+                        "example": "http://localhost/api/1.0/posts"
+                    },
+                    "per_page": {
+                        "title": "per_page",
+                        "description": "Per page",
+                        "type": "integer",
+                        "example": 20
+                    },
+                    "first_post_id": {
+                        "title": "first_post_id",
+                        "description": "first_post_id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_post_id": {
+                        "title": "last_post_id",
+                        "description": "last_post_id",
+                        "type": "integer",
+                        "example": 20
+                    },
+                    "to": {
+                        "title": "to",
+                        "description": "To",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "total": {
+                        "title": "total",
+                        "description": "Total",
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessAcceptedVirtual": {
+                "title": "success accepted 202",
+                "description": "success accepted 202",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "message",
+                        "type": "string",
+                        "example": "success accepted"
+                    },
+                    "response": {
+                        "title": "response",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "description": "null or data sent in the request body",
+                                "type": "object",
+                                "example": null
+                            },
+                            "meta": {
+                                "type": "object",
+                                "example": null
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessOkVirtual": {
+                "title": "success 200",
+                "description": "success 200",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "Success message",
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "response": {
+                        "title": "response",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "description": "null or data sent in the request body",
+                                "type": "object"
+                            },
+                            "meta": {
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UserProfileResponse200Virtual": {
+                "title": "User profile success response",
+                "description": "User profile success response",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 200
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "success message",
+                        "type": "string",
+                        "example": "logged!"
+                    },
+                    "response": {
+                        "title": "response",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "description": "user profile data",
+                                "properties": {
+                                    "id": {
+                                        "description": "user id",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "name": {
+                                        "description": "user name",
+                                        "type": "string",
+                                        "example": "User Demo"
+                                    },
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string",
+                                        "example": "user@gmail.com"
+                                    },
+                                    "bio": {
+                                        "description": "user bio",
+                                        "type": "string",
+                                        "example": "Hi.."
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "meta": {
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "passport": {
+                "type": "http",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://sm-app.test/oauth/authorize",
+                        "tokenUrl": "http://sm-app.test/api/1.0/auth/login",
+                        "refreshUrl": "http://sm-app.test/api/1.0/auth/refresh",
+                        "scopes": []
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "SM APP",
+            "description": "API Endpoints of Projects"
+        }
+    ],
+    "security": {
+        "passport": {
+            "type": "http",
+            "description": "Laravel passport oauth2 security.",
+            "in": "header",
+            "bearerFormat": "JWT",
+            "scheme": "bearer",
+            "flows": {
+                "password": {
+                    "authorizationUrl": "http://sm-app.test/oauth/authorize",
+                    "tokenUrl": "http://sm-app.test/api/1.0/auth/login",
+                    "refreshUrl": "http://sm-app.test/api/1.0/auth/refresh",
+                    "scopes": []
+                }
+            }
+        },
+        "0": []
+    }
+}
