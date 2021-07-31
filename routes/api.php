@@ -15,7 +15,8 @@ Route::group([
         'prefix' => 'auth',
         'as' => 'auth.'
     ], function () {
-        Route::post('login', 'LoginController@issueToken')->name('login');
+        Route::post('login', 'LoginController@login')->name('login');
+        Route::post('register', 'RegistrationController@register')->name('register');
     });
 
     Route::middleware('auth:api')->group(function () {

@@ -10,7 +10,7 @@ class UserProfileResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -19,7 +19,7 @@ class UserProfileResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'bio' => $this->profile? $this->profile->bio : EmptyData::string(),
+            'bio' => $this->profile && $this->profile->bio ? $this->profile->bio : EmptyData::string(),
         ];
     }
 }
