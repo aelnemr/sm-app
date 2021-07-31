@@ -139,6 +139,41 @@
                 }
             }
         },
+        "/1.0/feed": {
+            "get": {
+                "tags": [
+                    "Feed"
+                ],
+                "description": "User Feed",
+                "responses": {
+                    "200": {
+                        "description": "User feed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedResponse200Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response401Virtual"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
         "/1.0/users/profile": {
             "get": {
                 "tags": [
@@ -570,6 +605,65 @@
                                 }
                             }
                         },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "FeedResponse200Virtual": {
+                "title": "Feed success response",
+                "description": "Feed success response",
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Status",
+                        "type": "integer",
+                        "example": 200
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "success message",
+                        "type": "string",
+                        "example": "logged!"
+                    },
+                    "response": {
+                        "title": "response",
+                        "description": "data object",
+                        "properties": {
+                            "data": {
+                                "description": "Feed data",
+                                "properties": {
+                                    "id": {
+                                        "description": "user id",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "color": {
+                                        "description": "background color",
+                                        "type": "string",
+                                        "example": "red"
+                                    },
+                                    "creator_by": {
+                                        "description": "User email",
+                                        "type": "int",
+                                        "example": 1
+                                    },
+                                    "body": {
+                                        "description": "user bio",
+                                        "type": "string",
+                                        "example": "Hi.."
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "meta": {
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "errors": {
+                        "title": "errors",
                         "type": "object"
                     }
                 },
