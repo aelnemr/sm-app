@@ -4,30 +4,31 @@ namespace App\Http\Controllers\API\V1\Post;
 
 use App\Http\Controllers\API\V1\APIV1Controller;
 use App\Http\Resources\FeedResource;
+use App\Models\Post;
 use App\Repository\Post\IPostRepository;
+use App\Services\Post\FeedService;
+use Illuminate\Support\Facades\Cache;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FeedController extends APIV1Controller
 {
     /**
-     * @var IPostRepository
+     * @var FeedService
      */
-    private $postRepository;
+    private $feedService;
 
-    public function __construct(IPostRepository $postRepository)
+    public function __construct(FeedService $feedService)
     {
-        $this->postRepository = $postRepository;
+        $this->feedService = $feedService;
     }
 
-    public function feed()
+    /**
+     * @return JsonResponse
+     */
+    public function feed(): JsonResponse
     {
-        $posts = $this->postRepository->paginate(
-            request()->query->get('limit', 100)
-        );
-
-
-
         return $this->okWithPagination(
-            FeedResource::collection($posts)
+            FeedResource::collection($this->feedService->getMyFeed())
         );
     }
 }
