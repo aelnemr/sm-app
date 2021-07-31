@@ -25,13 +25,72 @@
                     "Auth"
                 ],
                 "description": "User login endpont & client id, password",
-                "operationId": "cf4728e8a162792246ddcabd03194863",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/LoginUserRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful loged",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse200Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid email or password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response401Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "426": {
+                        "description": "upgrade required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response401Virtual"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "The given data was invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response422Virtual"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/1.0/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "description": "User register endpont & client id, password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterUserRequestVirtual"
                             }
                         }
                     }
@@ -153,6 +212,57 @@
                         "description": "user email",
                         "type": "string",
                         "example": "user@gmail.com"
+                    },
+                    "password": {
+                        "title": "password",
+                        "description": "user password",
+                        "type": "string",
+                        "example": "12345678"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterUserRequestVirtual": {
+                "title": "Register user data",
+                "description": "Register user data",
+                "required": [
+                    "grant_type",
+                    "client_id",
+                    "client_secret",
+                    "username",
+                    "password",
+                    "name"
+                ],
+                "properties": {
+                    "grant_type": {
+                        "title": "grant_type",
+                        "description": "shuld be *passwprd*",
+                        "type": "string",
+                        "example": "password"
+                    },
+                    "client_id": {
+                        "title": "cilent_id",
+                        "description": "cilent id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "client_secret": {
+                        "title": "client_secret",
+                        "description": "client passwprd",
+                        "type": "string",
+                        "example": "bm5FLIEBut8BC2a2VO4VB0TuAWi0sit5PKHDa616"
+                    },
+                    "username": {
+                        "title": "username",
+                        "description": "user email",
+                        "type": "string",
+                        "example": "user@gmail.com"
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "user name",
+                        "type": "string",
+                        "example": "user"
                     },
                     "password": {
                         "title": "password",
