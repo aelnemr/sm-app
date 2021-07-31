@@ -26,6 +26,12 @@ Route::group([
             ['namespace' => 'User', 'prefix' => 'users', 'as' => 'users.'],
             base_path('routes/api/v1/user.php')
         );
+
+        // user feed
+        Route::group(
+            ['namespace' => 'Post', 'prefix' => 'feed', 'as' => 'feed.'],
+            base_path('routes/api/v1/feed.php')
+        );
     });
 
 });

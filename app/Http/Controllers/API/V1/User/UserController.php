@@ -5,11 +5,10 @@ namespace App\Http\Controllers\API\V1\User;
 
 
 use AElnemr\RestFullResponse\CoreJsonResponse;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\V1\APIV1Controller;
 use App\Http\Resources\UserProfileResource;
-use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserController extends Controller
+class UserController extends APIV1Controller
 {
     use CoreJsonResponse;
 
