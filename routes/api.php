@@ -19,19 +19,29 @@ Route::group([
         Route::post('register', 'RegistrationController@register')->name('register');
     });
 
+    // users
+    Route::group(
+        ['namespace' => 'User', 'prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'],
+        base_path('routes/api/v1/user.php')
+    );
+
+
+//    // user messages
+//    Route::group(
+//        ['namespace' => 'Messages', 'prefix' => 'messages', 'as' => 'messages.', 'middleware' => 'auth'],
+//        base_path('routes/api/v1/messages.php')
+//    );
+
     Route::middleware('auth:api')->group(function () {
 
-        // users
-        Route::group(
-            ['namespace' => 'User', 'prefix' => 'users', 'as' => 'users.'],
-            base_path('routes/api/v1/user.php')
-        );
+
 
         // user feed
         Route::group(
             ['namespace' => 'Post', 'prefix' => 'feed', 'as' => 'feed.'],
             base_path('routes/api/v1/feed.php')
         );
+
     });
 
 });
