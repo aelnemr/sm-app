@@ -20,10 +20,9 @@ class FeedService
 
     public function getMyFeed()
     {
-        return Cache::rememberForever("feed", function () {
-            return $this->postRepository->paginate(
-                request()->query->get('limit', 200)
-            );
-        });
+        //latest
+        return $this->postRepository->latest()->paginate(
+            request()->query->get('limit', 25)
+        );
     }
 }
