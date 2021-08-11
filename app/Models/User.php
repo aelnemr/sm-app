@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserProfile::class, 'user_id');
     }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 }

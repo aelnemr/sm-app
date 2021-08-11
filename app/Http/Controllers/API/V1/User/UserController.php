@@ -7,6 +7,7 @@ namespace App\Http\Controllers\API\V1\User;
 use AElnemr\RestFullResponse\CoreJsonResponse;
 use App\Http\Controllers\API\V1\APIV1Controller;
 use App\Http\Resources\UserProfileResource;
+use App\Models\User;
 
 class UserController extends APIV1Controller
 {
@@ -40,4 +41,13 @@ class UserController extends APIV1Controller
             (new UserProfileResource($user))->resolve()
         );
     }
+
+    public function index()
+    {
+        $users = User::orderBy('name')->where('id', '!=', auth()->user()->id)->get();
+        return $this->ok(
+            UserProfileResource::collection($users)->resolve()
+        );
+    }
+
 }

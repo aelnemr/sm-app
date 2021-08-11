@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/api/1.0/users', [\App\Http\Controllers\API\V1\User\UserController::class, 'index'])->name('index');
+
+Route::post('/api/1.0/messages/', [\App\Http\Controllers\API\V1\Messages\MessagesController::class, 'index'])->name('index');
+Route::post('/api/1.0/messages/send', [\App\Http\Controllers\API\V1\Messages\MessagesController::class, 'store'])->name('send');
+
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
