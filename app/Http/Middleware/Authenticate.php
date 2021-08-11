@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use AElnemr\RestFullResponse\CoreJsonResponse;
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware

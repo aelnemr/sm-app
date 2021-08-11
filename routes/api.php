@@ -3,6 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+Route::post('media', '\App\Http\Controllers\UploadFileController@upload')
+    ->middleware('auth:api')
+    ->name('upload');
+
+
 Route::group([
     'prefix' => '1.0',
     'as' => 'v1.',
@@ -42,6 +48,11 @@ Route::group([
             base_path('routes/api/v1/feed.php')
         );
 
+        // user Post
+        Route::group(
+            ['namespace' => 'Post', 'prefix' => 'posts', 'as' => 'posts.'],
+            base_path('routes/api/v1/post.php')
+        );
     });
 
 });

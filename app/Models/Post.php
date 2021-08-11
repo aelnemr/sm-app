@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public static $colors = [
         'blue',
@@ -34,4 +37,17 @@ class Post extends Model
     {
         return  $this->hasMany(Comment::class, 'post_id');
     }
+
+    /**
+     * @param Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->sharpen(10);
+    }
+
 }

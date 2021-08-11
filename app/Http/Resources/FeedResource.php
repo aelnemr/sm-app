@@ -21,6 +21,7 @@ class FeedResource extends JsonResource
             'creator' => new UserProfileResource($this->creator),
             'body' => $this->body,
             'created_at' => $this->created_at->timestamp,
+            'media' => $this->getMedia('posting')->toArray()
         ];
     }
 }
