@@ -86,7 +86,7 @@ export default {
                 app.chatUserID = userID
 
                 // Start socket.io listener
-                Echo.channel(this.$parent.appSocketPrefix + 'newMessage-' + app.chatUserID + '-' + app.$root.userID)
+                Echo.channel(this.$root.appSocketPrefix + 'newMessage-' + app.chatUserID + '-' + app.$root.userID)
                     .listen('.messages.new', (data) => {
                         console.log(data);
 
@@ -118,7 +118,9 @@ export default {
             let app = this
             axios.get('api/1.0/users')
                 .then((resp) => {
-                    app.users = resp.data
+                    if (resp.data.status === 200) {
+                        app.users = resp.data.response.data
+                    }
                 })
         },
         loadMessages() {

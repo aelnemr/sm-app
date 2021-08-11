@@ -44,7 +44,10 @@ class UserController extends APIV1Controller
 
     public function index()
     {
-        return User::orderBy('name')->where('id', '!=', auth()->user()->id)->get();
+        $users = User::orderBy('name')->where('id', '!=', auth()->user()->id)->get();
+        return $this->ok(
+            UserProfileResource::collection($users)->resolve()
+        );
     }
 
 }

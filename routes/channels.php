@@ -17,6 +17,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('newMessage-148-149', function () {
-    return true;
-});
+//Broadcast::channel('newMessage-{sender}-{receiver}', function () {
+//    return true;
+//});

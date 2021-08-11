@@ -6,7 +6,7 @@
 
 import ChatApplication from "./components/ChatApplication";
 
-require('./bootstrap')
+import './bootstrap';
 import Vue from "vue";
 
 window.Vue = Vue
@@ -54,11 +54,7 @@ const app = new Vue({
 //     })
 //
 // // working
-// Echo.channel('sm_app_database_newMessage-148-149')
-//     .listen('.messages.new', (data) => {
-//         console.log(data, 'data');
-//
-//         if (app.chatUserID) {
-//             app.messages.push(data.message)
-//         }
-//     })
+Echo.channel('sm_app_database_newMessage-148-149')
+    .listen('.messages.new', (data) => {
+        console.log(data, 'data');
+    })

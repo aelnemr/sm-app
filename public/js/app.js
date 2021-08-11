@@ -2009,7 +2009,7 @@ __webpack_require__.r(__webpack_exports__);
         app.chatOpen = true;
         app.chatUserID = userID; // Start socket.io listener
 
-        Echo.channel(this.$parent.appSocketPrefix + 'newMessage-' + app.chatUserID + '-' + app.$root.userID).listen('.messages.new', function (data) {
+        Echo.channel(this.$root.appSocketPrefix + 'newMessage-' + app.chatUserID + '-' + app.$root.userID).listen('.messages.new', function (data) {
           console.log(data);
 
           if (app.chatUserID) {
@@ -2035,7 +2035,9 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var app = this;
       axios.get('api/1.0/users').then(function (resp) {
-        app.users = resp.data;
+        if (resp.data.status === 200) {
+          app.users = resp.data.response.data;
+        }
       });
     },
     loadMessages: function loadMessages() {
@@ -2077,7 +2079,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ChatApplication__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/ChatApplication */ "./resources/js/components/ChatApplication.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2085,10 +2088,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-
-window.Vue = vue__WEBPACK_IMPORTED_MODULE_1__.default;
+window.Vue = vue__WEBPACK_IMPORTED_MODULE_2__.default;
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -2096,8 +2097,8 @@ window.Vue = vue__WEBPACK_IMPORTED_MODULE_1__.default;
  */
 // Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('chat-application', _components_ChatApplication__WEBPACK_IMPORTED_MODULE_0__.default);
-var app = new vue__WEBPACK_IMPORTED_MODULE_1__.default({
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('chat-application', _components_ChatApplication__WEBPACK_IMPORTED_MODULE_0__.default);
+var app = new vue__WEBPACK_IMPORTED_MODULE_2__.default({
   el: '#app',
   data: {
     userID: null,
@@ -2129,14 +2130,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1__.default({
 //     })
 //
 // // working
-// Echo.channel('sm_app_database_newMessage-148-149')
-//     .listen('.messages.new', (data) => {
-//         console.log(data, 'data');
-//
-//         if (app.chatUserID) {
-//             app.messages.push(data.message)
-//         }
-//     })
+
+Echo.channel('sm_app_database_newMessage-148-149').listen('.messages.new', function (data) {
+  console.log(data, 'data');
+});
 
 /***/ }),
 
